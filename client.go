@@ -1,6 +1,8 @@
 package westcn
 
-import "errors"
+import (
+	"errors"
+)
 
 const (
 	// 默认的API请求地址
