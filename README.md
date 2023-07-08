@@ -14,11 +14,14 @@ go get github.com/virskor/westcn_sdk
 创建西部数码 SDK 客户端
 
 ```go
-  client := westcn.NewClient(&westcn.ClientOptions{
+  client, err := westcn.NewClient(&westcn.ClientOptions{
     BaseApiPath: "https://api.west.cn/api/v2",
     Username: "username",
     ApiPassword: "api_password",
   })
+  if err!= nil{
+    panic(err)
+  }
 
   // 演示，仅使用client查询域名
   resp, err := client.Request(&westcn.RequestOption{
@@ -27,10 +30,10 @@ go get github.com/virskor/westcn_sdk
     Header: map[string]interface{}{
       "Content-Type": "application/x-www-form-urlencoded"
     },
-    Body: map[string]interface{}{
-      "domain": "west",
-      "suffix": ".com/.net",
-    }
+    FormData: url.Values{
+      "domain": {"west"},
+      "suffix": {".com/.net"},
+    },
   })
   if err!= nil{
     panic(err)
