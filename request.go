@@ -25,6 +25,9 @@ type RequestOption struct {
 
 	// FormData，传入
 	FormData url.Values `json:"body"`
+
+	// Query
+	Query map[string]string `json:"query"`
 }
 
 // 用于请求的Token
@@ -99,6 +102,14 @@ func (w *WestClient) Request(option *RequestOption) (*Response, error) {
 	values.Add("token", token.Value)
 	values.Add("username", w.Options.Username)
 	values.Add("time", fmt.Sprintf("%d", token.Time))
+
+	// 如果传入Query，则同时补全
+	if option.Query != nil {
+		for k, v := range option.Query {
+			values.Add(k, v)
+		}
+	}
+
 	requestUrl.RawQuery = values.Encode()
 
 	httpClient := &http.Client{}
